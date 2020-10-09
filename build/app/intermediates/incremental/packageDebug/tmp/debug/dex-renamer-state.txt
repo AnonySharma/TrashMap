@@ -1,0 +1,4 @@
+#Sun Aug 30 05:13:06 IST 2020
+base.0=/home/anonysharma/Desktop/MyStuffsUbuntu/AppDev/Flutter/trash_map/build/app/intermediates/dex/debug/mergeDexDebug/out/classes.dex
+renamed.0=classes.dex
+path.0=classes.dex
