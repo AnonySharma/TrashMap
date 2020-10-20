@@ -11,7 +11,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        child: Text("All Notifications"),
+        child: Text("No notifications yet!"),
       ),
     );
   }

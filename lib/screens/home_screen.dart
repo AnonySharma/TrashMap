@@ -23,10 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
       'page': MapsScreen(),
     },
     {
-      'title': "Add Issue",
-      'page': IssuesScreen(),
-    },
-    {
       'title': "Notifications",
       'page': NotificationScreen(),
     },
@@ -51,29 +47,29 @@ class _HomeScreenState extends State<HomeScreen> {
         // backgroundColor: Theme.of(context).primaryColor,
         unselectedItemColor: Colors.grey,
         selectedItemColor: Colors.purple,
-        // type: BottomNavigationBarType.shifting,
+        type: BottomNavigationBarType.fixed,
         currentIndex: _selectedPageIndex,
         onTap: _selectPage,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.new_releases),
-            title: Text("Nearby"),
+            label: "Nearby",
+            // title: Text("Nearby")
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
-            title: Text("Map")
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            title: Text("Add"),
+            label: "Map",
+            // title: Text("Map")
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
-            title: Text("Notifications"),
+            label: "Notifications",
+            // title: Text("Notifications"),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.tag_faces),
-            title: Text("Profile"),
+            label: "Profile",
+            // title: Text("Profile"),
           )
         ],
       ),
