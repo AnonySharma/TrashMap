@@ -11,7 +11,15 @@ class IssuesScreen extends StatefulWidget {
 
 class _IssuesScreenState extends State<IssuesScreen> {
   List<Issue> issues= [
-    Issue(id: '1', title: "Gutter saaf karo", importance: 3, imgURL: 'https://static.sciencelearn.org.nz/images/images/000/001/768/original/Recyclable-waste20160826-15827-ay9efw.jpg',location: LatLng(23.6693, 86.1511), userID: "AnonySharma"),
+    Issue(id: '1', title: "Kachra saaf karo", importance: 3, imgURL: 'https://static.sciencelearn.org.nz/images/images/000/001/768/original/Recyclable-waste20160826-15827-ay9efw.jpg',location: LatLng(23.6693, 86.1511), userID: "AnonySharma"),
+    Issue(id: '2', title: "Road thik karo", importance: 4, imgURL: 'https://previews.123rf.com/images/radnatt/radnatt1705/radnatt170500071/79055020-old-broken-road-in-the-village-on-sunny-summer-day.jpg', location: LatLng(25.6693, 84.1511), userID: "AnonySharma"),
+    Issue(id: '1', title: "Kachra saaf karo", importance: 3, imgURL: 'https://static.sciencelearn.org.nz/images/images/000/001/768/original/Recyclable-waste20160826-15827-ay9efw.jpg',location: LatLng(23.6693, 86.1511), userID: "AnonySharma"),
+    Issue(id: '2', title: "Road thik karo", importance: 4, imgURL: 'https://previews.123rf.com/images/radnatt/radnatt1705/radnatt170500071/79055020-old-broken-road-in-the-village-on-sunny-summer-day.jpg', location: LatLng(25.6693, 84.1511), userID: "AnonySharma"),
+    Issue(id: '1', title: "Kachra saaf karo", importance: 3, imgURL: 'https://static.sciencelearn.org.nz/images/images/000/001/768/original/Recyclable-waste20160826-15827-ay9efw.jpg',location: LatLng(23.6693, 86.1511), userID: "AnonySharma"),
+    Issue(id: '2', title: "Road thik karo", importance: 4, imgURL: 'https://previews.123rf.com/images/radnatt/radnatt1705/radnatt170500071/79055020-old-broken-road-in-the-village-on-sunny-summer-day.jpg', location: LatLng(25.6693, 84.1511), userID: "AnonySharma"),
+    Issue(id: '1', title: "Kachra saaf karo", importance: 3, imgURL: 'https://static.sciencelearn.org.nz/images/images/000/001/768/original/Recyclable-waste20160826-15827-ay9efw.jpg',location: LatLng(23.6693, 86.1511), userID: "AnonySharma"),
+    Issue(id: '2', title: "Road thik karo", importance: 4, imgURL: 'https://previews.123rf.com/images/radnatt/radnatt1705/radnatt170500071/79055020-old-broken-road-in-the-village-on-sunny-summer-day.jpg', location: LatLng(25.6693, 84.1511), userID: "AnonySharma"),
+    Issue(id: '1', title: "Kachra saaf karo", importance: 3, imgURL: 'https://static.sciencelearn.org.nz/images/images/000/001/768/original/Recyclable-waste20160826-15827-ay9efw.jpg',location: LatLng(23.6693, 86.1511), userID: "AnonySharma"),
     Issue(id: '2', title: "Road thik karo", importance: 4, imgURL: 'https://previews.123rf.com/images/radnatt/radnatt1705/radnatt170500071/79055020-old-broken-road-in-the-village-on-sunny-summer-day.jpg', location: LatLng(25.6693, 84.1511), userID: "AnonySharma"),
   ];
 

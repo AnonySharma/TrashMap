@@ -78,7 +78,7 @@ class _IssueItemState extends State<IssueItem> {
                         icon: Icon(UpDown.up_fat, color: _isUpvoted?Colors.blue:Colors.grey,), 
                         onPressed: (){
                           setState(() {
-                            _isUpvoted=true;
+                            _isUpvoted=!_isUpvoted;
                             _isDownvoted=false;
                           });
                         }, 
@@ -90,7 +90,7 @@ class _IssueItemState extends State<IssueItem> {
                         icon: Icon(UpDown.down_fat, color: _isDownvoted?Colors.red:Colors.grey,), 
                         onPressed: (){
                           setState(() {
-                            _isDownvoted=true;
+                            _isDownvoted=!_isDownvoted;
                             _isUpvoted=false;
                           });
                         }, 
