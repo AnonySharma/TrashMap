@@ -1,16 +1,5 @@
-# trash_map
+# TrashMap
+This app aims to engage people in the process of building a cleaner India. The thought is to give a platform to all residents to report the trash close to theirlocality, and that will be updated to a heat-map, which will assist the municipal corporation with cleaning the spots as per the number of requests per zone.
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Details
+Check our proposal [here](https://docs.google.com/viewer?url=https://pdfhost.io/v/19d7GPM3M_TrashMapid_14.pdf)
