@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:trash_map/assets/up_down_icons.dart';
 import 'package:trash_map/models/issue.dart';
+import 'package:trash_map/screens/issue_detail_screen.dart';
 
 class IssueItem extends StatefulWidget {
   final Issue issue;
@@ -16,6 +17,12 @@ class _IssueItemState extends State<IssueItem> {
 
   void selectIssue(ctx) {
     print('Selected Issue');
+    Navigator.of(ctx).pushNamed(
+      IssueDetailScreen.routeName,
+      arguments: {
+        'issue': widget.issue
+      }
+    );
   }
 
   String calcDist(LatLng loc) {
@@ -42,7 +49,7 @@ class _IssueItemState extends State<IssueItem> {
                     topRight: Radius.circular(15),
                   ),
                   child: FadeInImage.assetNetwork(
-                    placeholder: 'assets/load.gif', 
+                    placeholder: 'lib/assets/load.gif', 
                     image: widget.issue.imgURL,
                     height: 150,
                     width: double.infinity,
@@ -68,7 +75,7 @@ class _IssueItemState extends State<IssueItem> {
               ]
             ),
             Padding(
-              padding: const EdgeInsets.all(5),
+              padding: const EdgeInsets.all(1),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -83,9 +90,9 @@ class _IssueItemState extends State<IssueItem> {
                           });
                         }, 
                         // splashColor: Colors.blueAccent[100], 
-                        splashRadius: 20,
+                        splashRadius: 1,
                       ),
-                      // SizedBox(width: 5,),
+                      // SizedBox(width: 7, child: FittedBox(fit: BoxFit.fitWidth, child: Text("2"),),),
                       IconButton(
                         icon: Icon(UpDown.down_fat, color: _isDownvoted?Colors.red:Colors.grey,), 
                         onPressed: (){
@@ -95,8 +102,9 @@ class _IssueItemState extends State<IssueItem> {
                           });
                         }, 
                         // splashColor: Colors.redAccent[100], 
-                        splashRadius: 20,
+                        splashRadius: 1,
                       ),
+                      // SizedBox(width: 7, child: FittedBox(fit: BoxFit.fitWidth, child: Text("2"),),),
                     ],
                   ),
                   Row(
@@ -105,7 +113,7 @@ class _IssueItemState extends State<IssueItem> {
                       SizedBox(
                         width: 5,
                       ),
-                      Text('${calcDist(widget.issue.location)}'),
+                      Text('${calcDist(widget.issue.coord)}'),
                     ],
                   ),
                   Row(
@@ -113,7 +121,7 @@ class _IssueItemState extends State<IssueItem> {
                       Icon(Icons.priority_high),
                       SizedBox(width: 5,),
                       Text(widget.issue.importance.toString()),
-                      SizedBox(width: 10,),
+                      SizedBox(width: 15,),
                     ],
                   ),
                 ],

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import './profile_screen.dart';
+import './app_drawer.dart';
 
-import 'issues_screen.dart';
-import 'notification_screen.dart';
-import 'profile_screen.dart';
-import 'maps_screen.dart';
+import './issues_screen.dart';
+import './notification_screen.dart';
+import './maps_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home-screen';
@@ -26,10 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
       'title': "Notifications",
       'page': NotificationScreen(),
     },
-    {
-      'title': "Profile",
-      'page': ProfileScreen(),
-    },
+    // {
+    //   'title': "Profile",
+    //   'page': ProfileScreen(),
+    // },
   ];
 
   void _selectPage (int index) {
@@ -41,7 +42,22 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(_pages[_selectedPageIndex]['title']),),
+      drawer: Drawer(
+        child: AppDrawer(),
+      ),
+      appBar: AppBar(
+        title: Text(_pages[_selectedPageIndex]['title']),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.face),
+            onPressed: (){
+              Navigator.of(context).pushNamed(
+                ProfileScreen.routeName
+              );
+            }
+          )
+        ],
+      ),
       body: _pages[_selectedPageIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(
         // backgroundColor: Theme.of(context).primaryColor,
@@ -66,11 +82,11 @@ class _HomeScreenState extends State<HomeScreen> {
             label: "Notifications",
             // title: Text("Notifications"),
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.tag_faces),
-            label: "Profile",
-            // title: Text("Profile"),
-          )
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.tag_faces),
+          //   label: "Profile",
+          //   // title: Text("Profile"),
+          // )
         ],
       ),
     );

@@ -10,22 +10,25 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text("Hey Dude"),
-            RaisedButton(
-              child: Text("Sign Out"),
-              onPressed: () {
-                Navigator.of(context).pushReplacementNamed(
-                  'login'
-                );
-              },
-            ),
-          ],
-        )
+    return Scaffold(
+      appBar: AppBar(title: Text("Profile"),),
+      body: Center(
+        child: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text("Hey Dude"),
+              RaisedButton(
+                child: Text("Sign Out"),
+                onPressed: () {
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                    'login', (Route<dynamic> route) => false
+                  );
+                },
+              ),
+            ],
+          )
+        ),
       ),
     );
   }

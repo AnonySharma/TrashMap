@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trash_map/screens/issue_detail_screen.dart';
 import './screens/home_screen.dart';
 import './screens/issues_screen.dart';
 import './screens/maps_screen.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         IssuesScreen.routeName: (_) => IssuesScreen(),
         MapsScreen.routeName: (_) => MapsScreen(),
         NotificationScreen.routeName: (_) => NotificationScreen(),
+        IssueDetailScreen.routeName: (_) => IssueDetailScreen(),
       },
     );
   }
