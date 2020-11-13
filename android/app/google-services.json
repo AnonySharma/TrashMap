@@ -1,0 +1,40 @@
+{
+    "project_info": {
+      "project_number": "376372395398",
+      "firebase_url": "https://trashmap-project.firebaseio.com",
+      "project_id": "trashmap-project",
+      "storage_bucket": "trashmap-project.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:376372395398:android:74857a97eceb131d568007",
+          "android_client_info": {
+            "package_name": "com.trash_map"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "376372395398-m59fg584ndlmct8653vnu71pn6c22eib.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyBkUibY6kcGV6dpijZIzwO0FcXwRSMoYCc"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": [
+              {
+                "client_id": "376372395398-m59fg584ndlmct8653vnu71pn6c22eib.apps.googleusercontent.com",
+                "client_type": 3
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }

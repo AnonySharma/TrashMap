@@ -39,8 +39,9 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         manifestPlaceholders = [mapsApiKey: "$System.env.TRASHMAP_MAP_API_KEY"]
-        applicationId "com.example.trash_map"
+        applicationId "com.trash_map"
         minSdkVersion 16
+        multiDexEnabled true
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -61,4 +62,7 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support:multidex:1.0.3'
 }
+
+apply plugin: 'com.google.gms.google-services'
