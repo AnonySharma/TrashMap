@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -24,6 +25,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     super.initState();
   }
   
+  final dbRef = FirebaseDatabase.instance.reference();
   User _user=new User(
     name: "Ankit",
     emailID: "abc@d.com",
@@ -441,6 +443,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 color: Colors.green,
                 onPressed: () {
                   setState(() {
+                    // _user.profilePic="12";
                     _status = true;
                     FocusScope.of(context).requestFocus(FocusNode());
                   });
@@ -461,7 +464,6 @@ class _ProfileScreenState extends State<ProfileScreen>
                 color: Colors.red,
                 onPressed: () {
                   setState(() {
-                    
                     _status = true;
                     FocusScope.of(context).requestFocus(FocusNode());
                   });

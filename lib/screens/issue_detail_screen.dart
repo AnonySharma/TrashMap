@@ -22,7 +22,15 @@ class _IssueDetailScreenState extends State<IssueDetailScreen> {
     // print(issue);
 
     return Scaffold(
-      appBar: AppBar(title: Text(issue.title),),
+      appBar: AppBar(
+        title: Text(issue.title),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.delete), 
+            onPressed: () {}
+          )
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -100,6 +108,10 @@ class _IssueDetailScreenState extends State<IssueDetailScreen> {
             // Text(issue.desc),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.edit),
+        onPressed: () {},
       ),
     );
   }

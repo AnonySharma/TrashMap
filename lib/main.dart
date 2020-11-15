@@ -2,10 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:trash_map/authentication_service.dart';
-import 'package:trash_map/screens/issue_detail_screen.dart';
+import './screens/about_screen.dart';
+import './screens/contact_screen.dart';
+import './authentication_service.dart';
+import './screens/issue_detail_screen.dart';
 import './screens/home_screen.dart';
 import './screens/issues_screen.dart';
+import './screens/signup_screen.dart';
 import './screens/maps_screen.dart';
 import './screens/notification_screen.dart';
 import './screens/profile_screen.dart';
@@ -42,12 +45,15 @@ class MyApp extends StatelessWidget {
           // '/': (_) => MyHomePage(),
           'login': (_) => MyHomePage(),
           LoginScreen.routeName: (_) => LoginScreen(),
+          SignUpScreen.routeName: (_) => SignUpScreen(),
           HomeScreen.routeName: (_) => HomeScreen(),
           ProfileScreen.routeName: (_) => ProfileScreen(),
           IssuesScreen.routeName: (_) => IssuesScreen(),
           MapsScreen.routeName: (_) => MapsScreen(),
           NotificationScreen.routeName: (_) => NotificationScreen(),
           IssueDetailScreen.routeName: (_) => IssueDetailScreen(),
+          AboutScreen.routeName: (_) => AboutScreen(),
+          ContactUsScreen.routeName: (_) => ContactUsScreen(),
         },
       ),
     );

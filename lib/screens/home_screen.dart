@@ -1,3 +1,4 @@
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import './profile_screen.dart';
 import './app_drawer.dart';
@@ -14,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedPageIndex=0;
+  bool showFAB=true;
   final List<Map<String,Object>> _pages = [
     {
       'title': "Issues nearby",
@@ -35,6 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _selectPage (int index) {
     setState(() {
+      showFAB=(index==0);
       _selectedPageIndex = index;
     });
   }
@@ -88,6 +91,33 @@ class _HomeScreenState extends State<HomeScreen> {
           //   // title: Text("Profile"),
           // )
         ],
+      ),
+      floatingActionButton: !showFAB
+      ? null
+      : FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Flushbar(
+            backgroundColor: Colors.green[600],
+            icon: Icon(
+              Icons.done,
+              size: 28.0,
+              color: Colors.black,
+            ),
+            leftBarIndicatorColor: Colors.black54,
+            dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+            messageText: Text(
+              "Issue added",
+              style: TextStyle(
+                color: Colors.black54, 
+                // fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+            duration: Duration(seconds: 2),
+            isDismissible: true,
+          )..show(context);
+        },
       ),
     );
   }

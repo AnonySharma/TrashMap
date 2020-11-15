@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import './about_screen.dart';
+import './contact_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   Widget drawerTile (BuildContext context, IconData icon, String text) {
@@ -16,19 +18,18 @@ class AppDrawer extends StatelessWidget {
         ),
       ),
       onTap: () {
-        if(text=='Filters') {
+        if(text=='Guide') {
           // Navigator.of(context).pushNamed(
-          //   FilterScreen.routeName
+          //   GuideScreen.routeName
           // );
-        } else if(text=='Categories') {
-          // Navigator.of(context).popAndPushNamed(
-          //   TabsScreen.routeName
-          // );
-          //Navigator.of(context).pop();
-        } else if(text=='About') {
-          // Navigator.of(context).pushNamed(
-          //   AboutScreen.routeName
-         // );
+        } else if(text=='Contact Us') {
+          Navigator.of(context).popAndPushNamed(
+            ContactUsScreen.routeName
+          );
+        } else if(text=='App Info') {
+          Navigator.of(context).pushNamed(
+            AboutScreen.routeName
+         );
         }
       }
     );
@@ -42,17 +43,18 @@ class AppDrawer extends StatelessWidget {
             height: 220,
             padding: const EdgeInsets.all(20),
             alignment: Alignment.bottomLeft,
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).primaryColor,
             child: Text(
               'TrashMap', 
               style: TextStyle(
                 fontWeight: FontWeight.w900,
                 fontSize: 30,
-                color: Theme.of(context).primaryColor,
+                color: Colors.white,
               )
             ),
           ),
-          drawerTile(context, Icons.batch_prediction, 'Guide'),
+          SizedBox(height: 20,),
+          // drawerTile(context, Icons.batch_prediction, 'Guide'),
           drawerTile(context, Icons.people, 'Contact Us'),
           drawerTile(context, Icons.info, 'App Info'),
       ],

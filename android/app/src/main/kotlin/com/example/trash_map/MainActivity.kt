@@ -1,4 +1,4 @@
-package com.example.trash_map
+package com.trash_map
 
 import io.flutter.embedding.android.FlutterActivity
 
