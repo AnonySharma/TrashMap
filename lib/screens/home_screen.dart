@@ -1,15 +1,17 @@
-import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:trash_map/screens/add_issue.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:trash_map/models/issue.dart';
+import 'package:trash_map/widgets/issue_item.dart';
+import './add_issue.dart';
 import './profile_screen.dart';
 import './app_drawer.dart';
 
-import './issues_screen.dart';
 import './notification_screen.dart';
 import './maps_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home-screen';
+  
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -17,34 +19,46 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedPageIndex=0;
   bool showFAB=true;
-  final List<Map<String,Object>> _pages = [
-    {
-      'title': "Issues nearby",
-      'page': IssuesScreen(),
-    },
-    {
-      'title': "Map",
-      'page': MapsScreen(),
-    },
-    {
-      'title': "Notifications",
-      'page': NotificationScreen(),
-    },
-    // {
-    //   'title': "Profile",
-    //   'page': ProfileScreen(),
-    // },
-  ];
 
-  void _selectPage (int index) {
-    setState(() {
-      showFAB=(index==0);
-      _selectedPageIndex = index;
-    });
+  List<Issue> issues=[
+    Issue(id: '1', title: "Kachra saaf karo", desc: "BLABLA BLABLA BLABLA", importance: 3, imgURL: 'https://static.sciencelearn.org.nz/images/images/000/001/768/original/Recyclable-waste20160826-15827-ay9efw.jpg',location: "IIT BHU", coord: LatLng(23.6693, 86.1511), userID: "AnonySharma"),
+    Issue(id: '2', title: "Road thik karo", importance: 4, imgURL: 'https://previews.123rf.com/images/radnatt/radnatt1705/radnatt170500071/79055020-old-broken-road-in-the-village-on-sunny-summer-day.jpg', location: "IIT BHU", coord: LatLng(25.6693, 84.1511), userID: "AnonySharma"),
+    Issue(id: '1', title: "Kachra saaf karo", importance: 3, imgURL: 'https://static.sciencelearn.org.nz/images/images/000/001/768/original/Recyclable-waste20160826-15827-ay9efw.jpg',location: "IIT BHU", coord: LatLng(23.6693, 86.1511), userID: "AnonySharma"),
+  ];
+  
+  addNewIssue(Issue issue) {
+    issues.add(issue);
   }
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String,Object>> _pages = [
+      {
+        'title': "Issues nearby",
+        'page': ListView.builder(
+          itemCount: issues.length,
+          itemBuilder: (ctx, index) {
+            return IssueItem(issues[index]);
+          }
+        ),
+      },
+      {
+        'title': "Map",
+        'page': MapsScreen(),
+      },
+      {
+        'title': "Notifications",
+        'page': NotificationScreen(),
+      },
+    ];
+
+    void _selectPage (int index) {
+      setState(() {
+        showFAB=(index==0);
+        _selectedPageIndex = index;
+      });
+    }
+    
     return Scaffold(
       drawer: Drawer(
         child: AppDrawer(),
@@ -74,23 +88,15 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.new_releases),
             label: "Nearby",
-            // title: Text("Nearby")
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
             label: "Map",
-            // title: Text("Map")
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications),
             label: "Notifications",
-            // title: Text("Notifications"),
           ),
-          // BottomNavigationBarItem(
-          //   icon: Icon(Icons.tag_faces),
-          //   label: "Profile",
-          //   // title: Text("Profile"),
-          // )
         ],
       ),
       floatingActionButton: !showFAB
@@ -100,27 +106,11 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           Navigator.of(context).pushNamed(
             AddIssueScreen.routeName
-          );
-          Flushbar(
-            backgroundColor: Colors.green[600],
-            icon: Icon(
-              Icons.done,
-              size: 28.0,
-              color: Colors.black,
-            ),
-            leftBarIndicatorColor: Colors.black54,
-            dismissDirection: FlushbarDismissDirection.HORIZONTAL,
-            messageText: Text(
-              "Issue added",
-              style: TextStyle(
-                color: Colors.black54, 
-                // fontWeight: FontWeight.bold,
-                fontSize: 14,
-              ),
-            ),
-            duration: Duration(seconds: 2),
-            isDismissible: true,
-          )..show(context);
+          ).then((value) {
+            setState(() {
+              addNewIssue(value);
+            });
+          });
         },
       ),
     );

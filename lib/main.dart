@@ -8,7 +8,6 @@ import './screens/contact_screen.dart';
 import './authentication_service.dart';
 import './screens/issue_detail_screen.dart';
 import './screens/home_screen.dart';
-import './screens/issues_screen.dart';
 import './screens/signup_screen.dart';
 import './screens/maps_screen.dart';
 import './screens/notification_screen.dart';
@@ -49,7 +48,6 @@ class MyApp extends StatelessWidget {
           SignUpScreen.routeName: (_) => SignUpScreen(),
           HomeScreen.routeName: (_) => HomeScreen(),
           ProfileScreen.routeName: (_) => ProfileScreen(),
-          IssuesScreen.routeName: (_) => IssuesScreen(),
           MapsScreen.routeName: (_) => MapsScreen(),
           NotificationScreen.routeName: (_) => NotificationScreen(),
           IssueDetailScreen.routeName: (_) => IssueDetailScreen(),

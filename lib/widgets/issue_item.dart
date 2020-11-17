@@ -34,9 +34,12 @@ class _IssueItemState extends State<IssueItem> {
     return InkWell(
       onTap: () => selectIssue(context),
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(7),
+        ),
         elevation: 5,
         margin: const EdgeInsets.symmetric(
-          horizontal: 10, 
+          horizontal: 7, 
           vertical: 5,
         ),
         child: Column(
@@ -45,8 +48,8 @@ class _IssueItemState extends State<IssueItem> {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(15),
-                    topRight: Radius.circular(15),
+                    topLeft: Radius.circular(7),
+                    topRight: Radius.circular(7),
                   ),
                   child: FadeInImage.assetNetwork(
                     placeholder: 'lib/assets/load.gif', 

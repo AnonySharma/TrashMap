@@ -16,7 +16,7 @@ class _MapsScreenState extends State<MapsScreen> {
     mapController = controller;
   }
 
-  void _getUserLocation() async {
+  _getUserLocation() async {
     var position = await GeolocatorPlatform.instance
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
@@ -33,11 +33,13 @@ class _MapsScreenState extends State<MapsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("-----------------------------------------------");
+    print(_center);
     return GoogleMap(
       onMapCreated: _onMapCreated,
       myLocationEnabled: true,
       initialCameraPosition: CameraPosition(
-        target: _center==null?LatLng(23.6693, 86.1511):_center,
+        target: _center??LatLng(23.6693, 86.1511),
         zoom: 10.0,
       ),
     );

@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import '../models/issue.dart';
 
 class AddIssueScreen extends StatefulWidget {
   static const routeName = '/add-issue-screen';
@@ -13,8 +16,16 @@ class AddIssueScreen extends StatefulWidget {
 }
 
 class AddIssueScreenState extends State<AddIssueScreen> {
+  FocusNode _tF = FocusNode();
+  FocusNode _dF = FocusNode();
+
   File _image;
   var _picker = ImagePicker();
+  double _importance=1;
+  final titleController = TextEditingController();
+  final descController = TextEditingController();
+  String _location="Bokaro Steel City";
+  LatLng _coord;
 
   _cropImage(filePath) async {
     await ImageCropper.cropImage(
@@ -91,19 +102,24 @@ class AddIssueScreenState extends State<AddIssueScreen> {
       );
   }
 
+  _fieldFocusChange(BuildContext context, FocusNode currentFocus,FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);  
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Add Issue"),),
       body: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
           child: Column(
             children: [
               Container(
                 width: double.infinity,
                 height: 300.0,
-                color: Colors.cyanAccent,
+                color: Colors.grey[400],
                 child: _image!=null
                 ? Image.file(
                     _image,
@@ -112,7 +128,7 @@ class AddIssueScreenState extends State<AddIssueScreen> {
                 : GestureDetector(
                     child: Icon(
                       Icons.add_a_photo,
-                      size: 50,
+                      size: 80,
                     ),
                     onTap: () {
                       _showPicker(context);
@@ -120,14 +136,113 @@ class AddIssueScreenState extends State<AddIssueScreen> {
                   )
               ),
               TextField(
+                controller: titleController,
+                focusNode: _tF,
                 decoration: InputDecoration(
-                  labelText: "Issue Title",
-                  hintText: "Add a small title for the issue"
+                  labelText: "Title",
+                  hintText: "Add a title for the issue"
                 ),
+                onEditingComplete: () {
+                  _fieldFocusChange(context, _tF, _dF);
+                },
+                textInputAction: TextInputAction.next,
+              ),
+              TextField(
+                maxLines: null,
+                controller: descController,
+                focusNode: _dF,
+                decoration: InputDecoration(
+                  labelText: "Desciption",
+                  hintText: "Describe the issue briefly"
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Importance",
+                  ),
+                  Slider(
+                    min: 1, 
+                    max: 5,
+                    value: _importance,
+                    divisions: 4,
+                    label: _importance.toInt().toString(),        
+                    onChanged: (val) {
+                      setState(() {
+                        _importance=val;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Location ${_location!=null?": $_location":""}"),
+                  IconButton(
+                    icon: Icon(Icons.add_location_alt), 
+                    onPressed: () {
+                    
+                    }
+                  )
+                ],
               )
             ]
           )
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.done),
+        onPressed: () {
+          Issue issue = new Issue(
+            title: titleController.text,
+            desc: descController.text,
+            // imgURL: _image!=null
+            //   ? _image.path.toString()
+            //   : "",
+            imgURL: "https://via.placeholder.com/468x60?text=New+Issue",
+            location: _location,
+            coord: _coord,
+            id: DateTime.now().toString(),
+            userID: "1",
+            importance: _importance.toInt(),
+          );
+          print(titleController.text);
+          print(descController.text);
+          print(_image.toString());
+          print(_location);
+          print(_importance);
+          // setState(() {
+          //   addNewIssue(issue);
+          // });
+
+          // print(issues.length);
+          Navigator.of(context).pop(issue);
+          Flushbar(
+            backgroundColor: Colors.green[600],
+            icon: Icon(
+              Icons.done,
+              size: 28.0,
+              color: Colors.black,
+            ),
+            leftBarIndicatorColor: Colors.black54,
+            dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+            messageText: Text(
+              "Issue added",
+              style: TextStyle(
+                color: Colors.black54, 
+                // fontWeight: FontWeight.bold,
+                fontSize: 14,
+              ),
+            ),
+            duration: Duration(seconds: 2),
+            isDismissible: true,
+          )..show(context);
+        },
       ),
     );
   }

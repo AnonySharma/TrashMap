@@ -10,34 +10,53 @@ import 'package:trash_map/models/users.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = '/profile-screen';
-
-  @override
-  _ProfileScreenState createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen>
-  with SingleTickerProviderStateMixin {
-  bool _status = true;
-  final FocusNode myFocusNode = FocusNode();
-
-  @override
-  void initState() {
-    super.initState();
-  }
-  
-  final dbRef = FirebaseDatabase.instance.reference();
-  User _user=new User(
+  final User _user=new User(
     name: "Ankit",
     emailID: "abc@d.com",
     phoneNum: "1234567890",
     address: "IIT (BHU), Varanasi",
     profilePic: "",
-    id: "20",
+    id: "2",
   );
+
+  @override
+  _ProfileScreenState createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProviderStateMixin {
+  bool _status = true;
+  final FocusNode myFocusNode = FocusNode();
+  String name;
+  String email;
+  String phone;
+  String address;
 
   File _image;
   var _picker=ImagePicker();
+
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+  final addressController = TextEditingController();
+  final FocusNode _nameFoc = FocusNode();
+  final FocusNode _phoneFoc = FocusNode();
+  final FocusNode _addressFoc = FocusNode();
+
+  @override
+  void initState() {
+    name=widget._user.name;
+    email=widget._user.emailID;
+    phone=widget._user.phoneNum;
+    address=widget._user.address;
+    nameController.text=name;
+    emailController.text=email;
+    phoneController.text=phone;
+    addressController.text=address;
+    super.initState();
+  }
   
+  final dbRef = FirebaseDatabase.instance.reference();
+
   _cropImage(filePath) async {
     await ImageCropper.cropImage(
         sourcePath: filePath.path,
@@ -64,8 +83,6 @@ class _ProfileScreenState extends State<ProfileScreen>
           _cropImage(_image);
       });
     });
-
-    // print(_image);
   }
 
   _imgFromGallery() async {
@@ -78,8 +95,6 @@ class _ProfileScreenState extends State<ProfileScreen>
             _cropImage(_image);
         });
       });
-
-      // print(_image);
     }
 
   void _showPicker(ctx) {
@@ -111,6 +126,11 @@ class _ProfileScreenState extends State<ProfileScreen>
         );
       }
     );
+  }
+
+  _fieldFocusChange(BuildContext context, FocusNode currentFocus,FocusNode nextFocus) {
+    currentFocus.unfocus();
+    FocusScope.of(context).requestFocus(nextFocus);  
   }
 
   @override
@@ -254,11 +274,17 @@ class _ProfileScreenState extends State<ProfileScreen>
                             children: <Widget>[
                               Flexible(
                                 child: TextField(
+                                  controller: nameController,
+                                  focusNode: _nameFoc,
                                   decoration: const InputDecoration(
                                     hintText: "Enter Your Name",
                                   ),
                                   enabled: !_status,
                                   autofocus: !_status,
+                                  onEditingComplete: () {
+                                    _fieldFocusChange(context, _nameFoc, _phoneFoc);
+                                  },
+                                  textInputAction: TextInputAction.next,
                                 ),
                               ),
                             ],
@@ -291,9 +317,10 @@ class _ProfileScreenState extends State<ProfileScreen>
                             children: <Widget>[
                               Flexible(
                                 child: TextField(
+                                  controller: emailController,
                                   decoration: const InputDecoration(
                                       hintText: "Enter Email ID"),
-                                  enabled: !_status,
+                                  enabled: false,
                                 ),
                               ),
                             ],
@@ -326,41 +353,37 @@ class _ProfileScreenState extends State<ProfileScreen>
                             children: <Widget>[
                               Flexible(
                                 child: TextField(
+                                  controller: phoneController,
+                                  focusNode: _phoneFoc,
                                   decoration: const InputDecoration(
                                       hintText: "Enter Mobile Number"),
                                   enabled: !_status,
+                                  onEditingComplete: () {
+                                    _fieldFocusChange(context, _phoneFoc, _addressFoc);
+                                  },
+                                  textInputAction: TextInputAction.next,
                                 ),
                               ),
                             ],
-                          )),
+                          )
+                        ),
                         Padding(
                           padding: const EdgeInsets.only(
                               left: 25.0, right: 25.0, top: 25.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              Expanded(
-                                child: Container(
-                                  child: Text(
-                                    'Pin Code',
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  Text(
+                                    'Address',
                                     style: TextStyle(
                                         fontSize: 16.0,
                                         fontWeight: FontWeight.bold),
                                   ),
-                                ),
-                                flex: 2,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  child: Text(
-                                    'State',
-                                    style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                                flex: 2,
+                                ],
                               ),
                             ],
                           )),
@@ -369,29 +392,24 @@ class _ProfileScreenState extends State<ProfileScreen>
                               left: 25.0, right: 25.0, top: 2.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
                               Flexible(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 10.0),
-                                  child: TextField(
-                                    decoration: const InputDecoration(
-                                        hintText: "Enter Pin Code"),
-                                    enabled: !_status,
-                                  ),
-                                ),
-                                flex: 2,
-                              ),
-                              Flexible(
                                 child: TextField(
+                                  controller: addressController,
+                                  maxLines: null,
+                                  focusNode: _addressFoc,
                                   decoration: const InputDecoration(
-                                      hintText: "Enter State"),
+                                      hintText: "Enter your Address"),
                                   enabled: !_status,
+                                  onEditingComplete: () {
+                                    _addressFoc.unfocus();
+                                  },
+                                  textInputAction: TextInputAction.done,
                                 ),
-                                flex: 2,
                               ),
                             ],
-                          )),
+                          )
+                        ),
                         !_status ? _getActionButtons() : Container(),
                       ],
                     ),
