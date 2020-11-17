@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:trash_map/screens/add_issue.dart';
 import './screens/about_screen.dart';
 import './screens/contact_screen.dart';
 import './authentication_service.dart';
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
           IssueDetailScreen.routeName: (_) => IssueDetailScreen(),
           AboutScreen.routeName: (_) => AboutScreen(),
           ContactUsScreen.routeName: (_) => ContactUsScreen(),
+          AddIssueScreen.routeName: (_) => AddIssueScreen(),
         },
       ),
     );

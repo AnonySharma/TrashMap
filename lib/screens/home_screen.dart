@@ -1,5 +1,6 @@
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:trash_map/screens/add_issue.dart';
 import './profile_screen.dart';
 import './app_drawer.dart';
 
@@ -97,6 +98,9 @@ class _HomeScreenState extends State<HomeScreen> {
       : FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
+          Navigator.of(context).pushNamed(
+            AddIssueScreen.routeName
+          );
           Flushbar(
             backgroundColor: Colors.green[600],
             icon: Icon(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:trash_map/models/issue.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import '../models/issue.dart';
 
 class IssueDetailScreen extends StatefulWidget {
   static const routeName = '/issue-detail-screen';
@@ -25,10 +26,10 @@ class _IssueDetailScreenState extends State<IssueDetailScreen> {
       appBar: AppBar(
         title: Text(issue.title),
         actions: [
-          IconButton(
-            icon: Icon(Icons.delete), 
-            onPressed: () {}
-          )
+          // IconButton(
+          //   icon: Icon(Icons.delete), 
+          //   onPressed: () {}
+          // )
         ],
       ),
       body: Padding(
@@ -68,8 +69,8 @@ class _IssueDetailScreenState extends State<IssueDetailScreen> {
                       Container(
                         constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width-140),
                         child: Text(
-                          // issue.location,
-                          "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
+                          issue.location,
+                          // "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB",
                           style: TextStyle(
                             color: Colors.grey,
                             fontWeight: FontWeight.w400
@@ -105,14 +106,64 @@ class _IssueDetailScreenState extends State<IssueDetailScreen> {
                 ),
               ],
             ),
-            // Text(issue.desc),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Description: ", 
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      Container(
+                        // constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width-140),
+                        child: Text(
+                          issue.desc,
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w400
+                          ),
+                        ),
+                      ),
+                    ]
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.edit),
-        onPressed: () {},
-      ),
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        curve: Curves.bounceIn,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.4,
+        tooltip: "Options",
+        elevation: 7,
+        shape: CircleBorder(),
+        children: [
+          SpeedDialChild(
+            child: Icon(Icons.edit),
+            backgroundColor: Colors.yellow[800],
+            label: "Edit",
+            onTap: () {}
+          ),
+            SpeedDialChild(
+            child: Icon(Icons.delete),
+            backgroundColor: Colors.red,
+            label: "Delete",
+            onTap: () {}
+          )
+        ],
+      )
     );
   }
 }

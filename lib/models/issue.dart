@@ -4,13 +4,27 @@ import 'package:flutter/foundation.dart';
 class Issue {
   final String id;
   final String title;
-  final String desc;
+  String desc;
   final String location;
   final String imgURL;
   final int importance;
   final LatLng coord;
   final String userID;
-  final bool isResolved;
+  bool isResolved;
+  int upvotes;
+  int downvotes;
 
-  Issue({@required this.id, @required this.title, this.desc="Not Available", @required this.imgURL, @required this.importance, @required this.coord, @required this.location, @required this.userID, this.isResolved=false});
+  Issue({
+    @required this.id, 
+    @required this.title, 
+    @required this.imgURL, 
+    @required this.importance, 
+    @required this.coord, 
+    @required this.location, 
+    @required this.userID, 
+    this.desc="Not Available", 
+    this.isResolved=false, 
+    this.upvotes=0, 
+    this.downvotes=0
+  });
 }

@@ -41,24 +41,5 @@ class _MapsScreenState extends State<MapsScreen> {
         zoom: 10.0,
       ),
     );
-    // return Center(
-    //   child: Text('Hey')
-    //   // Container(
-    //     // child: Column(
-    //     //   mainAxisAlignment: MainAxisAlignment.spaceAround,
-    //     //   children: [
-    //         // Text("Maps Screen"),
-    //         // Container(
-    //         //   height: 500,
-    //         //   width: double.infinity,
-    //         //   color: Colors.grey,
-    //         //   child: Center(
-    //         //     child: Text("Local Map", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30))
-    //         //   ),
-    //         // )
-    //     //   ],
-    //     // ),
-    //   // ),
-    // );
   }
 }
