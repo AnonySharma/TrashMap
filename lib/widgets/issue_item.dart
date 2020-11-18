@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:trash_map/assets/up_down_icons.dart';
@@ -14,13 +15,30 @@ class IssueItem extends StatefulWidget {
 
 class _IssueItemState extends State<IssueItem> {
   bool _isUpvoted=false, _isDownvoted=false;
+  String imageURL;
 
+  Future getImage(id) async {
+    String url = await FirebaseStorage.instance.ref().child('issues/$id.jpeg').getDownloadURL();
+    print("------------------------------------------------\nURL: $url");
+
+    setState(() {
+      imageURL=url;
+    });
+    print(imageURL);
+  }
+
+  @override
+  void initState() {
+    getImage(widget.issue.id);
+    super.initState();
+  }
   void selectIssue(ctx) {
     print('Selected Issue');
     Navigator.of(ctx).pushNamed(
       IssueDetailScreen.routeName,
       arguments: {
-        'issue': widget.issue
+        'issue': widget.issue,
+        'image': imageURL,
       }
     );
   }
@@ -53,7 +71,7 @@ class _IssueItemState extends State<IssueItem> {
                   ),
                   child: FadeInImage.assetNetwork(
                     placeholder: 'lib/assets/load.gif', 
-                    image: widget.issue.imgURL,
+                    image: imageURL??"https://via.placeholder.com/468x60?text=New+Issue",
                     height: 150,
                     width: double.infinity,
                     fit: BoxFit.cover,

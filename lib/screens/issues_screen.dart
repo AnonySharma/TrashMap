@@ -19,12 +19,12 @@ class _IssuesScreenState extends State<IssuesScreen> {
         issues.clear();
         event.docs.forEach((el) {
           var tmp=el.data();
-          print(el.id+tmp.toString());
+          // print(el.id+tmp.toString());
           issues.add(Issue(id: el.id, title: tmp['title'], imgURL: tmp['img'], desc: tmp['desc'], importance: tmp['imp'], coord: LatLng(tmp['coord'].latitude, tmp['coord'].longitude), location: tmp['loc'], userID: tmp['createdBy']));
         });
       });
     });
-    print(issues);
+    // print(issues);
   }
 
   @override

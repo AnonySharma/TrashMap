@@ -20,6 +20,8 @@ class _IssueDetailScreenState extends State<IssueDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final issue = (ModalRoute.of(context).settings.arguments as Map<String,Object>)['issue'] as Issue;
+    final image = (ModalRoute.of(context).settings.arguments as Map<String,Object>)['image'] as String;
+
     // print(issue);
 
     return Scaffold(
@@ -40,7 +42,7 @@ class _IssueDetailScreenState extends State<IssueDetailScreen> {
               borderRadius: BorderRadius.circular(3),
               child: FadeInImage.assetNetwork(
                 placeholder: 'lib/assets/load.gif', 
-                image: issue.imgURL,
+                image: image??"https://via.placeholder.com/468x60?text=New+Issue",
                 height: 300,
                 width: double.infinity,
                 fit: BoxFit.cover,

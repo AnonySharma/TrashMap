@@ -81,6 +81,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ProfileScreen.routeName
               );
             }
+          ),
+          IconButton(
+            icon: Icon(Icons.replay_outlined),
+            onPressed: (){
+              setState(() {
+                
+              });
+            }
           )
         ],
       ),

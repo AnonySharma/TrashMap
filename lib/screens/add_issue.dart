@@ -33,13 +33,14 @@ class AddIssueScreenState extends State<AddIssueScreen> {
   String userID = FirebaseAuth.instance.currentUser.uid;
 
   initState() {
+    id=UniqueKey().toString();
     super.initState();
   }
 
-  Future uploadFile(image) async {    
+  Future uploadFile(image) async {
     await FirebaseStorage.instance    
       .ref()    
-      .child('issues/${UniqueKey().toString()}.jpeg')
+      .child('issues/$id.jpeg')
       .putFile(image).then((task) {
         print(task.metadata.fullPath);
     });
@@ -228,15 +229,10 @@ class AddIssueScreenState extends State<AddIssueScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.done),
         onPressed: () {
-          setState(() {
-            
-          });
+          print(_image);
           if(_image!=null)
           {
-            new Future.delayed(const Duration(seconds: 4), () {
-              uploadFile(_image);
-              print('delayed execution');
-            });
+            uploadFile(_image);
             getImage();
           }
 
