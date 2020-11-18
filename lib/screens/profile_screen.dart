@@ -1,23 +1,16 @@
 import 'dart:io';
 
-import 'package:firebase_database/firebase_database.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:trash_map/authentication_service.dart';
-import 'package:trash_map/models/users.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = '/profile-screen';
-  final User _user=new User(
-    name: "Ankit",
-    emailID: "abc@d.com",
-    phoneNum: "1234567890",
-    address: "IIT (BHU), Varanasi",
-    profilePic: "",
-    id: "2",
-  );
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -30,9 +23,12 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
   String email;
   String phone;
   String address;
+  String userID;
+  String imageURL="https://via.placeholder.com/512x512?text=User";
 
   File _image;
   var _picker=ImagePicker();
+  Map<String,dynamic> userData;
 
   final nameController = TextEditingController();
   final emailController = TextEditingController();
@@ -44,26 +40,56 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
 
   @override
   void initState() {
-    name=widget._user.name;
-    email=widget._user.emailID;
-    phone=widget._user.phoneNum;
-    address=widget._user.address;
-    nameController.text=name;
-    emailController.text=email;
-    phoneController.text=phone;
-    addressController.text=address;
+    print(FirebaseAuth.instance.currentUser.uid);
+    FirebaseFirestore.instance
+      .collection('profile')
+      .doc(FirebaseAuth.instance.currentUser.uid)
+      .get()
+      .then((val){
+        userData=val.data();
+        // print(val.exists);
+        // print(userData["name"]);
+        userID=userData['uid'].toString();
+        name=nameController.text=userData['name'].toString();
+        email=emailController.text=userData['email'].toString();
+        address=addressController.text=userData['address'].toString();
+        phone=phoneController.text=userData['mobile'].toString();
+      });
+
+    setState(() {
+      getImage();
+    });
     super.initState();
   }
   
-  final dbRef = FirebaseDatabase.instance.reference();
+  Future uploadFile(image) async {    
+    await FirebaseStorage.instance    
+      .ref()    
+      .child('users/$userID.jpeg')
+      .putFile(image).then((task) {
+        print(task.metadata.fullPath);
+    });
+    
+    print('File Uploaded');
+  }
+
+  Future getImage() async {
+    String url = await FirebaseStorage.instance.ref().child('users/$userID.jpeg').getDownloadURL();
+    print("------------------------------------------------\nURL: $url");
+
+    setState(() {
+      imageURL=url;
+    });
+    print(imageURL);
+  }
 
   _cropImage(filePath) async {
     await ImageCropper.cropImage(
-        sourcePath: filePath.path,
-        maxWidth: 1024,
-        maxHeight: 1024,
-        cropStyle: CropStyle.circle,
-        aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0)
+      sourcePath: filePath.path,
+      maxWidth: 1024,
+      maxHeight: 1024,
+      cropStyle: CropStyle.circle,
+      aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0)
     ).then((croppedImage){
       if (croppedImage  != null) {
         setState(() {
@@ -157,21 +183,15 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                               Container(
                                 width: 140.0,
                                 height: 140.0,
-                                child: _image!=null
-                                ? CircleAvatar(
+                                child: CircleAvatar(
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(100),
-                                    child: Image.file(
-                                      _image,
+                                    child: FadeInImage.assetNetwork(
+                                      placeholder: "lib/assets/load.gif",
+                                      image: imageURL,
                                       fit: BoxFit.fitWidth
                                     )
                                   )
-                                )
-                                : CircleAvatar(
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(100),
-                                    child: Icon(Icons.ac_unit),
-                                  ),
                                 )
                               ),
                             ],
@@ -186,7 +206,6 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                     onTap: (){
                                       setState(() {
                                         _showPicker(context);
-                                        // print(_image);
                                       });
                                     },
                                     child: CircleAvatar(
@@ -318,6 +337,7 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                               Flexible(
                                 child: TextField(
                                   controller: emailController,
+                                  keyboardType: TextInputType.emailAddress,
                                   decoration: const InputDecoration(
                                       hintText: "Enter Email ID"),
                                   enabled: false,
@@ -355,6 +375,8 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                                 child: TextField(
                                   controller: phoneController,
                                   focusNode: _phoneFoc,
+                                  keyboardType: TextInputType.phone,
+                                  maxLength: 10,
                                   decoration: const InputDecoration(
                                       hintText: "Enter Mobile Number"),
                                   enabled: !_status,
@@ -461,9 +483,23 @@ class _ProfileScreenState extends State<ProfileScreen> with SingleTickerProvider
                 color: Colors.green,
                 onPressed: () {
                   setState(() {
-                    // _user.profilePic="12";
-                    _status = true;
-                    FocusScope.of(context).requestFocus(FocusNode());
+                    FirebaseFirestore.instance
+                      .collection('profile')
+                      .doc(FirebaseAuth.instance.currentUser.uid)
+                      .update({
+                        'name': nameController.text.trim(),
+                        'email': emailController.text.trim(),
+                        'address': addressController.text.trim(),
+                        'mobile': phoneController.text.trim(),
+                      })
+                      .then((val){
+                        print("Updated Profile");
+                      });
+
+                      uploadFile(_image);
+                      getImage();
+                      _status = true;
+                      FocusScope.of(context).requestFocus(FocusNode());
                   });
                 },
                 shape: RoundedRectangleBorder(

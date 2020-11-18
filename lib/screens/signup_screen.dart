@@ -1,5 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flushbar/flushbar.dart';
-// import 'package:flushbar/flushbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:trash_map/authentication_service.dart';
@@ -26,6 +27,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
   int errPass = 0; //1-empty
   int errUserName = 0; //1-empty, 2-invalid ,3-registered
   int errName = 0; //1-empty
+
+  uploadUser(_user) async {
+    if (context.read<AuthenticationService>().user != null) {
+      await FirebaseFirestore.instance
+        .collection('profile')
+        .doc(_user['uid'])
+        .set(_user)
+        .catchError((e) {
+          print(e);
+        }
+      );
+    } else {
+      print('You need to be logged In');
+    }
+  }
 
   void signUp() {
     int err=0;
@@ -109,6 +125,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if(err==1)
       return;
 
+    // print(context.read<AuthenticationService>().user);
+    final Map<String, dynamic> userDetails = {
+      'uid': FirebaseAuth.instance.currentUser.uid,
+      'name': nameController.text.trim(),
+      'email': emailController.text.trim(),
+      'username': usernameController.text.trim(),
+      'address': "",
+      'mobile': "",
+    };
+
+    print(emailController.text);
+    print(userDetails);
+
+    uploadUser(userDetails);
     Navigator.of(context).pushNamedAndRemoveUntil(
       'login', (Route<dynamic> route) => false
     );
@@ -148,6 +178,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
+              SizedBox(height: 50,),
               Text("Welcome to TrashMap", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
               SizedBox(height: 50,),
               TextField(
@@ -155,6 +186,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
+                  icon: Icon(Icons.email),
                   labelText: "Email",
                   errorText: (errEmail==1) ? "The email address can not be empty" : (errEmail==2) ? "The email address is badly formatted" : (errEmail==3) ? "The email address is already in use by another account" : null,
                 ),
@@ -173,6 +205,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 // autocorrect: false,
                 controller: usernameController,
                 decoration: InputDecoration(
+                  icon: Icon(Icons.account_box),
                   labelText: "Username",
                   errorText: errUserName==1 ? "Username can't be empty" : errUserName==2 ? "The username is badly formatted" : null,
                 ),
@@ -191,6 +224,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 // autocorrect: false,
                 controller: nameController,
                 decoration: InputDecoration(
+                  icon: Icon(Icons.face),
                   labelText: "Name",
                   errorText: errName==1 ? "Name must be 2 character long" : null,
                   // errorText: errName
@@ -211,6 +245,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 obscureText: true,
                 controller: passController,
                 decoration: InputDecoration(
+                  icon: Icon(Icons.security),
                   labelText: "Password",
                   errorText: errPass==1 ? "Password must be 6 characters long" : null,
                 ),

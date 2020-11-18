@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,6 +28,34 @@ class AddIssueScreenState extends State<AddIssueScreen> {
   final descController = TextEditingController();
   String _location="Bokaro Steel City";
   LatLng _coord;
+  String imageURL;
+  String id;
+  String userID = FirebaseAuth.instance.currentUser.uid;
+
+  initState() {
+    super.initState();
+  }
+
+  Future uploadFile(image) async {    
+    await FirebaseStorage.instance    
+      .ref()    
+      .child('issues/${UniqueKey().toString()}.jpeg')
+      .putFile(image).then((task) {
+        print(task.metadata.fullPath);
+    });
+    
+    print('File Uploaded');
+  }
+  
+  Future getImage() async {
+    String url = await FirebaseStorage.instance.ref().child('issues/$id.jpeg').getDownloadURL();
+    print("------------------------------------------------\nURL: $url");
+
+    setState(() {
+      imageURL=url;
+    });
+    print(imageURL);
+  }
 
   _cropImage(filePath) async {
     await ImageCropper.cropImage(
@@ -198,24 +228,36 @@ class AddIssueScreenState extends State<AddIssueScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.done),
         onPressed: () {
+          setState(() {
+            
+          });
+          if(_image!=null)
+          {
+            new Future.delayed(const Duration(seconds: 4), () {
+              uploadFile(_image);
+              print('delayed execution');
+            });
+            getImage();
+          }
+
+          print(imageURL);
+          print(_image);
+
           Issue issue = new Issue(
             title: titleController.text,
             desc: descController.text,
-            // imgURL: _image!=null
-            //   ? _image.path.toString()
-            //   : "",
-            imgURL: "https://via.placeholder.com/468x60?text=New+Issue",
+            imgURL: imageURL??"https://via.placeholder.com/468x60?text=New+Issue",
             location: _location,
             coord: _coord,
-            id: DateTime.now().toString(),
-            userID: "1",
+            id: id,
+            userID: userID,
             importance: _importance.toInt(),
           );
-          print(titleController.text);
-          print(descController.text);
-          print(_image.toString());
-          print(_location);
-          print(_importance);
+          // print(titleController.text);
+          // print(descController.text);
+          // print(_image.toString());
+          // print(_location);
+          // print(_importance);
           // setState(() {
           //   addNewIssue(issue);
           // });

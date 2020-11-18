@@ -41,11 +41,11 @@ dependencies:
   firebase_auth: ^0.18.3
   firebase_database: ^4.3.0
   firebase_storage: ^5.0.1
+  cloud_firestore: ^0.14.3
   
   provider: ^4.3.2+2
   
   # firebase_crashlytics: "^0.2.3"
-  # cloud_firestore: "^0.14.3"
   # cloud_functions: "^0.7.0+1"
   # firebase_storage: "^5.0.1"
   # firebase_messaging: "^8.0.0-dev.8"

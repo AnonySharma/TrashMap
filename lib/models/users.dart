@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-class User {
+class MyUser {
   final String id;
   final String name;
   final String profilePic;
@@ -9,7 +9,7 @@ class User {
   final String address;
   bool isAdmin;
 
-  User({
+  MyUser({
     @required this.id, 
     @required this.name, 
     this.profilePic, 

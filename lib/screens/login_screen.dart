@@ -166,6 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
+              SizedBox(height: 50,),
               Text("Welcome to TrashMap", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
               SizedBox(height: 50,),
               TextField(
@@ -173,6 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 controller: emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
+                  icon: Icon(Icons.email),
                   labelText: "Email",
                   errorText: (errEmail==1) ? "The email address can not be empty" : (errEmail==2) ? "The email address is badly formatted" : (errEmail==3) ? "The email address is either un-registered or deleted" : null,
                 ),
@@ -192,6 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 obscureText: true,
                 controller: passController,
                 decoration: InputDecoration(
+                  icon: Icon(Icons.security),
                   labelText: "Password",
                   errorText: errPass==1 ? "Password must be 6 characters long" : null,
                 ),
